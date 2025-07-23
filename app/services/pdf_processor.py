@@ -6,12 +6,9 @@ class PDFProcessor:
     self.embeddings = Embeddings()
 
   def process(self, pdf_path):
-    text = self._extract_text(pdf_path)
+    pdf = PdfReader(pdf_path)
+    text = "\n".join([pdf.pages[0].extract_text()])
     print("text: ", text)
     embeddings = self.embeddings.create_embeddings(text)
     print("embeddings: ", embeddings)
     return True
-
-  def _extract_text(self, pdf_path):
-    pdf = PdfReader(pdf_path)
-    return "\n".join([pdf.pages[0].extract_text()])
