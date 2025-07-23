@@ -1,5 +1,5 @@
 import chromadb
-from chromadb.api.types import QueryResult
+from chromadb.api.types import QueryResult, GetResult
 
 class VectorDB:
 
@@ -68,6 +68,19 @@ class VectorDB:
       QueryResult: The results of the query
     """
     return self.collection.query(query_embeddings=[query_embeddings], n_results=n_results)
+  
+  def get(self, ids: list[str], include: list[str] = ["documents", "metadatas"]) -> GetResult:
+    """
+    Get the documents and metadatas for the given ids
+
+    Args:
+      ids: list[str]
+        - The ids to check
+
+    Returns:
+      GetResult: The results of the get
+    """
+    return self.collection.get(ids=ids, include=include)
 
 
 def get_chroma_db(persistent: bool = False, path: str = None, collection_name: str = "pdf_collection") -> VectorDB:
