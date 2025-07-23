@@ -1,9 +1,9 @@
 from PyPDF2 import PdfReader
-from app.services.embeddings import Embeddings
+from app.services.embeddings import embeddings
 
 class PDFProcessor:
   def __init__(self):
-    self.embeddings = Embeddings()
+    self.embeddings = embeddings
 
   def process(self, pdf_path):
     pdf = PdfReader(pdf_path)
