@@ -9,13 +9,14 @@ class PDFProcessor:
 
   def process(self, pdf_path):
     pdf = PdfReader(pdf_path)
-    text = "\n".join([pdf.pages[0].extract_text()])
-    print("text: ", text)
-    embeddings = self.embeddings.create_embeddings(text)
-    print("embeddings: ", embeddings)
+    
+    for i, page in enumerate(pdf.pages):
+      text = page.extract_text()
+      print("text index: ", i)
+      embeddings = self.embeddings.create_embeddings(text)
+      print("embeddings index: ", i, " ", embeddings)
+      self.chroma_db.add(ids=[str(i)], documents=[text], embeddings=[embeddings])
 
-    a = self.chroma_db.add(ids=["1"], documents=[text], embeddings=[embeddings])
-    print("a: ", a)
     query = "What is the main idea of the document?"
     query_embeddings = self.embeddings.create_embeddings(query)
     q = self.chroma_db.query(query_embeddings=query_embeddings)
